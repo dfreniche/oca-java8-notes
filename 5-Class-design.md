@@ -18,8 +18,8 @@ autoscale: true
 ## Access modifiers for top-level classes
 
 - public, (default)
-- not private, protected!
-
+- not private nor protected!
+	- we can have inner or nested classes with those modifiers (not in OCA)
 
 ---
 
@@ -63,7 +63,46 @@ public default class B {
 - default constructor: added by the compiler
 - calling always super() or this()
 - constructor chaining
-- private constructors
+- watch out! private constructors
+
+---
+
+## Constructors: private constructors!
+
+```java
+class A {
+    private A() {
+    }
+}
+
+class B extends A { // comp error: There's no default constructor available in A
+   // we can't call super()!
+}
+
+```
+
+---
+
+## Constructors: private constructors!
+
+```java
+// problem solved
+
+class A {
+    private A() {
+    }
+    public A(String s) {
+        
+    }
+}
+
+class B extends A {
+    public B() {
+        super(null);
+    }
+}
+
+```
 
 
 ---
@@ -126,13 +165,50 @@ Inside constructor
 
 ---
 
+## super() vs super
+
+```java
+class A {
+    private int i1;
+    int i2;
+}
+
+class B extends A {
+    public B() {
+        System.out.println(i2);
+        i2 = 10; // OK, can see it
+        System.out.println(i2);
+        super.i2 = 11; // it's the same
+        System.out.println(i2);
+        this.i2 = 12; // same again
+        System.out.println(i2);
+
+    }
+}
+```
+
+---
+
 ## Overloading vs. Overriding
 
-- Overriding checks
-	- same signature
-	- method in child class at least as accessible as method in parent class
-	- can't throw new / broader checked exceptions
-	- if returns a value, same type or sibclass of the method in parent class (covariant returns)
+- override a method: same method in child class
+- overload a method: same method name, different parameters
+
+---
+
+## Overriding checks
+- same signature
+- method in child class at least as accessible as method in parent class
+- can't throw new / broader checked exceptions
+- if returns a value, same type or sibclass of the method in parent class (covariant returns) [^1]
+
+[^1]: preserves the ordering of types 
+
+---
+
+## final methods
+
+- can't be overridden
 
 ---
 
@@ -144,24 +220,83 @@ Inside constructor
 
 ## Static method hiding
 
+- no such thing as static method overridding exists
+
+```java
+class A {
+    public static void m1() {
+        System.out.println("In A");
+    }
+}
+
+class B extends A {
+    public static void m1() {	// not "overridding", just same name
+        System.out.println("In B");
+    }
+}
+
+A.m1();	// In A
+B.m1(); // In B
+
+A a = new B();
+((B)a).m1(); // In B
+
+```
+
 ---
 ## Hiding instance variables
+
+- that's why getters/setters are nice!
+
+```java
+class A {
+    private int i1;
+    int i2;
+}
+
+class B extends A {
+    int i1; // no problem, doesn't exist here
+    String i2;  // hiding instance vars!
+
+    public B() {
+        System.out.println(i2);
+        i2 = "b"; // OK, String var
+        System.out.println(i2);
+        super.i2 = 11; // OK, int var
+        System.out.println(super.i2);
+        this.i2 = "b2"; // sOK, String var
+        System.out.println(i2);
+
+    }
+}
+
+```
+
 
 ---
 
 ## Abstract classes
 
-- create
-- extend an abstract class
+- a class that is marked as abstract
+- can't instantiate objects from this class
+- can have concrete & abstract methods
+
+- exercise: create an abstract class
+- excersise: extend an abstract class
 
 ---
 
 ## Interfaces
 
-- interface inheritance
 - method signature inside interfaces: __public abstract__ always
+- marker interface: empty interface
+- variables inside interfaces: __public static final__ always (static constants)
 
 ---
+
+## Interface inheritance
+
+- can inherit from multiple interfaces
 
 ```java
 interface I {
