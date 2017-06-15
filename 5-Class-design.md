@@ -12,6 +12,7 @@ autoscale: true
 - extends vs implements
 - a class can´t extend an Interface
 - can't implement a Class
+- against inheritance: http://www.yegor256.com/2016/09/13/inheritance-is-procedural.html
 
 ---
 

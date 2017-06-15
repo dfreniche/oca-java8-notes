@@ -228,7 +228,9 @@ f.forEach(p -> System.out.println(p.getName()));
 
 ---
 
-## Classic First class functions: map, reduce, filter
+## Classic First class functions: map 
+
+- Not in OCA, but useful
 
 ```java
 List<String> names = Arrays.asList("Grouch", "Chicc", "Harp");
@@ -241,6 +243,48 @@ names.stream().map((e) -> e.toUpperCase()).forEach(e -> System.out.printf(e + "\
 
 ```
 
+
+---
+
+## Predicates
+
+- functional interface `Predicate`
+- has a `test method`
+```java
+boolean test(T t);
+```
+
+```java
+Predicate<String> p = s -> s.startsWith("G");
+
+System.out.println(p.test("Manolo")); 		// --> false
+System.out.println(p.test("Groucho"));		// --> true
+```
+
+---
+
+## Predicates can be composed!
+
+```
+Predicate<String> startsWithG = s -> s.startsWith("G");
+Predicate<String> correctSize = s -> s.length() == 7;
+Predicate<String> correctName = startsWithG.and(correctSize);
+
+System.out.println(correctName.test("Manolo"));
+System.out.println(correctName.test("Groucho"));	// --> true
+```
+
+---
+
+## Predicates for filtering streams
+
+```java
+List<String> names = Arrays.asList("Grouch", "Chicc", "Harp");
+
+Predicate<String> p = s -> s.startsWith("G");
+names.stream().filter(p).forEach(System.out::println);
+
+```
 
 ---
 
@@ -261,7 +305,7 @@ if (s.isPresent()) {
 
 ## Fun with functions
 
-````
+```java
 Interface Function<T,R>
 
 - T: the type of the input to the function
