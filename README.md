@@ -21,7 +21,7 @@ If you need a PDF version you can use gitprint.com. Just change any link to my M
 - Passing Score:	65% --> 56 questions OK and done!
 
 
-https://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=5001&get_params=p_exam_id:1Z0-809
+https://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=5001&get_params=p_exam_id:1Z0-808
 
 
 ---
